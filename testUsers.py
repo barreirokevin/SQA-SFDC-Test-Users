@@ -56,6 +56,7 @@ def getSpreadsheet(username):
     subprocess.run("rmdir tmp /s /q ", shell=True)
     # Open the excel file
     subprocess.run("start testUsers.xlsx", shell=True)
+    print("Test user spreadsheet was constructed successfully!")
 
 
 if __name__ == '__main__':
