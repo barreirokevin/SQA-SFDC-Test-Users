@@ -25,7 +25,7 @@ def getSpreadsheet(username):
     # create a CSV file to store the data
     testUserFile = open("./tmp/testUser.csv", 'w')
     # Execute the command to retreive the test user data
-    subprocess.Popen(f'sfdx force:data:soql:query -u {username} -q "SELECT IsActive, Email, Name, Username, Profile.Name, User_Role__c FROM User WHERE IsActive = TRUE"', shell=True, stdout=testUserFile).wait()
+    subprocess.Popen(f'sfdx force:data:soql:query -u {username} -q "SELECT IsActive, Email, Name, Username, Profile.Name, User_Role__c FROM User"', shell=True, stdout=testUserFile).wait()
     # close the CSV file
     testUserFile.close()
   
@@ -45,7 +45,7 @@ def getSpreadsheet(username):
     columnMapping = {permissionSetDataframe.columns[0]: 'PERMISSIONSET', permissionSetDataframe.columns[1]: 'USERNAME'}
     permissionSetDataframe = permissionSetDataframe.rename(columns=columnMapping)
     # Perform an INNER JOIN on the username and Assignee.Username fields of testUserData_df and permissionSetData_df
-    joinedDataframe = testUserDataframe.merge(permissionSetDataframe, how='inner', on='USERNAME')
+    joinedDataframe = testUserDataframe.merge(permissionSetDataframe, how='outer', on='USERNAME')
 
     # 5. Output the test user excel file
     # Output the joined Pandas.Dataframe to an excel file
